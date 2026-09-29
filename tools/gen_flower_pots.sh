@@ -98,10 +98,10 @@ cat > "$BLOCKSTATES_DIR/flower_pot.json" <<'EOF'
 }
 EOF
 
-# Pot layers for potted variants: crosses (0..16), cutout, pushed 0.25px
+# Pot layers for potted variants: crosses (0..16), cutout, pushed 0.05px
 # behind and in front of the plant so they don't z-fight with it.
-write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_back.json" "minecraft:block/flower_pot_layer_back" 0 16 "minecraft:cutout" "" -0.25
-write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_front.json" "minecraft:block/flower_pot_layer_front" 0 16 "minecraft:cutout" "" 0.25
+write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_back.json" "minecraft:block/flower_pot_layer_back" 0 16 "minecraft:cutout" "" -0.05
+write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_front.json" "minecraft:block/flower_pot_layer_front" 0 16 "minecraft:cutout" "" 0.05
 
 # Plant layer: raised 5px => y: 5..21, ONLY this uses tripwire
 # A third column tints the plant with the vanilla block color (grass).

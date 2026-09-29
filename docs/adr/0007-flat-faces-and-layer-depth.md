@@ -36,7 +36,8 @@ planes that should billboard.
   measures the kept face's offset from the block center (`at_midBlock`)
   along its normal, recenters the quad, and pushes it that far toward the
   camera. With `rescale` the offset grows by √2; only the order matters.
-- Pot layers use `d` = −0.25 (back) and +0.25 (front); the plant stays at 0.
+- Pot layers use `d` = −0.05 (back) and +0.05 (front); the plant stays at 0.
+  A larger depth shows as a visible offset between the layers from above.
   `tools/gen_flower_pots.sh` writes one element per face when `d` ≠ 0.
 - Wall bell plates are 1px thick (7.5–8.5) so the bell sits 0.25px in front
   of its stem plate from both sides.

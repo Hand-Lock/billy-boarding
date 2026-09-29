@@ -39,7 +39,7 @@ face the camera.
 | Cake, bites 0–6 | cross | new art, one per bite |
 | Candle cake, all colors, lit/unlit | cross | new art; every color shows the plain candle for now |
 | Flower pot, empty | cross, lowered 3px | vanilla `item/flower_pot` |
-| 34 potted plants | three crosses: back, plant, front, 0.25px apart in depth (ADR 0007) | pot layers are new art; plant is the vanilla plant texture (fern tinted, bamboo uses `item/bamboo`, cactus `block/cactus_side` for now) |
+| 34 potted plants | three crosses: back, plant, front, 0.05px apart in depth (ADR 0007) | pot layers are new art; plant is the vanilla plant texture (fern tinted, bamboo uses `item/bamboo`, cactus `block/cactus_side` for now) |
 | Anvil, chipped, damaged | cross; item model flat too | new art (`item/*_anvil_flat`) |
 | Bell, floor/ceiling | cross (floor adds a legs cross) | vanilla `item/bell`; legs are new art |
 | Bell, single/double wall | flat plate in front of a stem plate, not billboarded (ADR 0007) | vanilla `item/bell`; stems are new art |
@@ -87,7 +87,7 @@ and `shaders/gbuffers_terrain.vsh`.
   This is how wall bells and the pitcher bulb live in 10990.
 - **Layer depth** (ADR 0007): a cross face pushed `d` along its own normal
   draws in front of the depth 0 cross from every side, shaders on or off.
-  Layers that overlap get different depths (pot layers ±0.25).
+  Layers that overlap get different depths (pot layers ±0.05).
 - The shader finds the quad center from UVs, so each face maps the full
   sprite (uv 0–16) and sprites are 16×16. Vertical offsets are fine (pots).
 - Every bell state is in 10990: floor and ceiling bells as crosses, wall
