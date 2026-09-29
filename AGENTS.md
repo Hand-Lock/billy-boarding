@@ -1,6 +1,6 @@
 # Billy Boarding — agent guide
 
-Billy Boarding is a Minecraft 1.20.1 resource pack and an add-on for the
+Billy Boarding is a Minecraft 1.20.1–26.3 resource pack and an add-on for the
 Mode 13h shader pack (`Hand-Lock/mode-13h`). It swaps the models of cakes,
 flower pots, anvils, bells, brewing stands, cactus, crops and fire for flat
 cross geometry with sprite textures; Mode 13h billboards them as block ID
@@ -10,9 +10,17 @@ the look or compatibility.
 
 ## Hard constraints
 
-- `pack.mcmeta` has `pack_format` 15 (1.20.1).
-- Vanilla JSON only: blockstates, models, textures. No OptiFine CEM/CTM, no
-  mod-only files.
+- One zip for 1.20.1 to 26.3 (ADR 0008). `pack.mcmeta` has `pack_format`
+  15, and every range is written both ways: `supported_formats` /
+  `formats` [min, max] and `min_format` / `max_format`. Raise `max_format`
+  only for a version `tools/check.sh` covers.
+- The base `assets/` is the exact 1.20.1 pack. What only newer versions
+  have (`items/` definitions, newer blocks) goes in `overlay_<version>/`,
+  the overlay of its first release, active up to `max_format`.
+- Every `"shade": false` has `"shade_direction_override": "up"` next to it:
+  26.3 only reads the second, older versions only the first.
+- Vanilla JSON only: blockstates, item definitions, models, textures. No
+  OptiFine CEM/CTM, no mod-only files.
 - `render_type` in a model is a Forge/NeoForge extension. Fabric and vanilla
   ignore it and use the block's own render layer, so never rely on it to
   make a block look right.
@@ -26,7 +34,7 @@ the look or compatibility.
 - Suckless: the smallest change that works. No new tools, formats or
   abstractions without a reason.
 - `flower_pot.json`, `flower_pot_layer_*.json`, `potted_*.json` and
-  `potted_*_plant.json` are generated. Never edit them by hand: edit
+  `potted_*_plant.json` are generated, in `assets/` and the overlays. Never edit them by hand: edit
   `tools/gen_flower_pots.sh`, run it, and commit both. `tools/check.sh`
   fails if they drift.
 - Refs without a namespace are `minecraft:`; the pack uses `minecraft:`
@@ -44,19 +52,30 @@ assets/minecraft/
                           bottles, bell legs and stems
   textures/item/          new anvil sprites
   textures/entity/bell/   transparent, to hide the bell block entity
+overlay_1_21_4/assets/minecraft/
+  items/                  flat anvil item definitions (1.21.4+)
+  blockstates/, models/   pale oak and eyeblossom pots
+overlay_26_1/…            golden dandelion pot
+overlay_26_3/…            poplar sapling pot
 tools/
   check.sh                offline checks (see below)
-  build.sh                dist/billy-boarding-<version>.zip from git archive
+  build.sh                dist/billy-boarding-<version>+1.20.1-26.3.zip
+                          from git archive
   gen_flower_pots.sh      generates the flower pot and potted-plant files
-  vanilla.sh              writes vanilla-1.20.1.txt from the client jar
-  vanilla-1.20.1.txt      vanilla model and texture paths, for check.sh
+  vanilla.sh              writes vanilla-<version>.txt from the client jar
+  vanilla-<version>.txt   vanilla blockstate, item, model and texture
+                          paths of 1.20.1, 1.21.1, 1.21.4, 26.1 and 26.3
 ```
 
-`tools/check.sh` checks that every JSON file parses, `pack_format` is 15,
-every blockstate model, model parent and literal texture ref resolves to a
-pack file or a vanilla path, the flower pot files match the generator, and
-no private data is committed. Rerun `tools/vanilla.sh` only for a new
-Minecraft version.
+`tools/check.sh` checks that every JSON file parses; pack.mcmeta's formats
+and overlays are consistent and match the `overlay_*` directories; every
+`"shade": false` has its 26.3 twin. Then, for each version in its table, it
+builds the effective pack (base plus active overlays) and checks that every
+blockstate and item model, model parent and literal texture ref resolves to
+a pack file or a vanilla path, and every blockstate and item file names a
+block or item of that version. It also checks the flower pot files match the
+generator and no private data is committed. For a new Minecraft version, run
+`tools/vanilla.sh <version>` and add it to check.sh's version table.
 
 ## Adding a billboarded block
 
@@ -64,7 +83,11 @@ Minecraft version.
    `minecraft:block/cross` and a `cross` texture: the item icon if it reads
    well, else a new 16×16 sprite in `textures/block/`. For state-dependent
    parts, use a multipart of several crosses (see `brewing_stand.json`).
-   Wall-mounted variants stay flat plates, not crosses.
+   Wall-mounted variants stay flat plates, not crosses. A block newer than
+   1.20.1 goes in the overlay of its first release (a new
+   `overlay_<version>` needs a pack.mcmeta entry and a check.sh version);
+   a potted plant is one line in that overlay's `pots` call in
+   `tools/gen_flower_pots.sh`.
 2. **In Mode 13h.** Add the block (with state filters if only some states
    are crosses) to the `block.10990` line in `shaders/block.properties`,
    following that file's rules (no comments inside `\` continuations,

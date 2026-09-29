@@ -12,7 +12,7 @@ The sprites are made from the blocks' own item icons, plus new art where no icon
 
 - **Cake**: every bite stage.
 - **Candle cake**: lit and unlit. Every color shows the plain candle for now.
-- **Flower pot**: the empty pot and all 34 potted plants.
+- **Flower pot**: the empty pot and every potted plant (34 on 1.20.1, up to 39 on 26.3, including the glowing open eyeblossom).
 - **Anvil**: intact, chipped and damaged, also flat in the inventory.
 - **Bell**: standing and hanging bells become sprites; wall-mounted bells become flat plates on the wall.
 - **Brewing stand**: the stand and each bottle slot.
@@ -28,7 +28,7 @@ Coming as the art lands: candles, sea pickles, turtle eggs, the sniffer egg, the
 1. Install **Mode 13h** (with **Iris** or **Oculus**) and turn on **Billy Boarding** in its shader settings.
 2. Put this pack above the default resources in the resource pack list.
 
-Minecraft **`1.20.1`**. Support for **`1.21.1`** is planned.
+Minecraft **`1.20.1`** and **`1.21.1`**, plus best-effort support for **`1.21.2`** up to **`26.3`**. One zip covers them all.
 
 ### Without the shader
 

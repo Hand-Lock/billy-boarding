@@ -9,14 +9,20 @@ BLOCKSTATES_DIR="$ASSETS_DIR/blockstates"
 
 mkdir -p "$MODELS_DIR" "$BLOCKSTATES_DIR"
 
-# write_plane <from> <to> <faces>: one cross plane element, rotated 45°.
+# write_plane <from> <to> <faces> [light]: one cross plane element, rotated
+# 45°. 26.3 dropped "shade" for "shade_direction_override"; each version
+# ignores the field it doesn't know (ADR 0008). light adds "light_emission".
 write_plane() {
+  local light=""
+  [ -n "${4:-}" ] && light='
+      "light_emission": '"$4"','
   cat <<EOF
     {
       "from": [$1],
       "to": [$2],
       "rotation": { "origin": [8, 8, 8], "axis": "y", "angle": 45, "rescale": true },
       "shade": false,
+      "shade_direction_override": "up",$light
       "faces": {
 $3
       }
@@ -25,8 +31,10 @@ EOF
 }
 
 write_cross_model_yshift() {
-  # Args: <filepath> <texture> <y_from> <y_to> <render_type> [tint] [depth]
+  # Args: <filepath> <texture> <y_from> <y_to> <render_type> [tint] [depth] [emissive]
   # tint: any non-empty value adds "tintindex": 0 to every face.
+  # emissive: a texture drawn as a second, identical cross at light level 15
+  #   (like vanilla flower_pot_cross_emissive); depth 0 only.
   # depth: pushes every face that many pixels along its own normal, so it
   #   draws in front of (or, negative, behind) a depth 0 cross from every
   #   side (ADR 0007). Each face then gets its own element.
@@ -38,13 +46,24 @@ write_cross_model_yshift() {
   local tint=""
   [ -n "${6:-}" ] && tint=', "tintindex": 0'
   local d="${7:-0}"
+  local emissive="${8:-}"
   local face='{ "uv": [0, 0, 16, 16], "texture": "#cross"'"$tint"' }'
-  local elements
+  local glow='{ "uv": [0, 0, 16, 16], "texture": "#emissive" }'
+  local elements textures='"cross": "'"$texture"'",'
   if [ "$d" = 0 ]; then
     elements="$(write_plane "0.8, $y0, 8" "15.2, $y1, 8" "        \"north\": $face,
         \"south\": $face"),
 $(write_plane "8, $y0, 0.8" "8, $y1, 15.2" "        \"west\": $face,
         \"east\": $face")"
+    if [ -n "$emissive" ]; then
+      textures="$textures
+    \"emissive\": \"$emissive\","
+      elements="$elements,
+$(write_plane "0.8, $y0, 8" "15.2, $y1, 8" "        \"north\": $glow,
+        \"south\": $glow" 15),
+$(write_plane "8, $y0, 0.8" "8, $y1, 15.2" "        \"west\": $glow,
+        \"east\": $glow" 15)"
+    fi
   else
     local lo hi
     lo=$(awk "BEGIN { print 8 - ($d) }")
@@ -61,7 +80,7 @@ $(write_plane "$hi, $y0, 0.8" "$hi, $y1, 15.2" "        \"east\": $face")"
   "render_type": "$rtype",
   "ambientocclusion": false,
   "textures": {
-    "cross": "$texture",
+    $textures
     "particle": "#cross"
   },
   "elements": [
@@ -103,15 +122,23 @@ EOF
 write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_back.json" "minecraft:block/flower_pot_layer_back" 0 16 "minecraft:cutout" "" -0.05
 write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_front.json" "minecraft:block/flower_pot_layer_front" 0 16 "minecraft:cutout" "" 0.05
 
-# Plant layer: raised 5px => y: 5..21, ONLY this uses tripwire
-# A third column tints the plant with the vanilla block color (grass).
-while read -r pot_id plant_texture tint; do
-  [ -z "${pot_id:-}" ] && continue
-  plant_model="${pot_id}_plant"
+# pots <dir>: reads "pot_id texture [tint|-] [emissive]" lines and writes
+# each potted plant's blockstate and plant model under <dir>. The plant
+# layer is raised 5px => y: 5..21, ONLY this uses tripwire. tint tints the
+# plant with the vanilla block color (grass). Blocks newer than 1.20.1 go in
+# the overlay of their first version (ADR 0008).
+pots() {
+  local dir="$1/assets/minecraft" pot_id plant_texture tint emissive
+  mkdir -p "$dir/models/block" "$dir/blockstates"
+  while read -r pot_id plant_texture tint emissive; do
+    [ -z "${pot_id:-}" ] && continue
+    [ "${tint:-}" = - ] && tint=""
+    write_cross_model_yshift "$dir/models/block/${pot_id}_plant.json" "$plant_texture" 5 21 "minecraft:tripwire" "${tint:-}" 0 "${emissive:-}"
+    write_potted_blockstate_multipart "$dir/blockstates/${pot_id}.json" "${pot_id}_plant"
+  done
+}
 
-  write_cross_model_yshift "$MODELS_DIR/${plant_model}.json" "$plant_texture" 5 21 "minecraft:tripwire" "$tint"
-  write_potted_blockstate_multipart "$BLOCKSTATES_DIR/${pot_id}.json" "$plant_model"
-done <<'EOF'
+pots . <<'EOF'
 potted_acacia_sapling minecraft:block/acacia_sapling
 potted_allium minecraft:block/allium
 potted_azure_bluet minecraft:block/azure_bluet
@@ -148,3 +175,16 @@ potted_azalea_bush minecraft:block/potted_azalea_bush_plant
 potted_flowering_azalea_bush minecraft:block/potted_flowering_azalea_bush_plant
 EOF
 
+pots overlay_1_21_4 <<'EOF'
+potted_pale_oak_sapling minecraft:block/pale_oak_sapling
+potted_closed_eyeblossom minecraft:block/closed_eyeblossom
+potted_open_eyeblossom minecraft:block/open_eyeblossom - minecraft:block/open_eyeblossom_emissive
+EOF
+
+pots overlay_26_1 <<'EOF'
+potted_golden_dandelion minecraft:block/golden_dandelion
+EOF
+
+pots overlay_26_3 <<'EOF'
+potted_poplar_sapling minecraft:block/poplar_sapling
+EOF

@@ -1,6 +1,16 @@
 {
   "pack": {
     "description": "§eBilly Boarding §8- §6For Mode 13h\n§8by HandLock_",
-    "pack_format": 15
+    "pack_format": 15,
+    "supported_formats": [15, 97],
+    "min_format": 15,
+    "max_format": 97
+  },
+  "overlays": {
+    "entries": [
+      { "directory": "overlay_1_21_4", "formats": [46, 97], "min_format": 46, "max_format": 97 },
+      { "directory": "overlay_26_1", "formats": [84, 97], "min_format": 84, "max_format": 97 },
+      { "directory": "overlay_26_3", "formats": [97, 97], "min_format": 97, "max_format": 97 }
+    ]
   }
 }

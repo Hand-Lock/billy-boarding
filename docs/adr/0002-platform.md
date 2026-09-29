@@ -1,7 +1,7 @@
 # 0002. Platform: vanilla resource pack for 1.20.1
 
 Date: 2026-09-29
-Status: Accepted
+Status: Accepted; the version part is superseded by 0008
 
 ## Context
 
