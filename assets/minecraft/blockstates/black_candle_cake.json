@@ -1,6 +1,6 @@
 {
   "variants": {
-    "lit=false": { "model": "minecraft:block/candle_cake_cross_black_unlit" },
-    "lit=true":  { "model": "minecraft:block/candle_cake_cross_black_lit" }
+    "lit=false": { "model": "minecraft:block/candle_cake_cross_plain_unlit" },
+    "lit=true":  { "model": "minecraft:block/candle_cake_cross_plain_lit" }
   }
 }
