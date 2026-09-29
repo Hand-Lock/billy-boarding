@@ -5,6 +5,11 @@ Versions: [SemVer](https://semver.org/) (see `docs/adr/0005-license-release-priv
 
 ## [Unreleased]
 
+### Added
+
+- Pitcher crop: the leaves billboard over the 3D bulb (with the matching
+  Mode 13h).
+
 ### Removed
 
 - Unused brewing stand block texture (the vanilla one is back for other
