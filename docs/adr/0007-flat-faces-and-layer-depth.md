@@ -34,10 +34,11 @@ planes that should billboard.
   side. Shaders off, each face is only seen from its own side (backface
   culling), so the order holds from all four sides. Shader on, Mode 13h
   measures the kept face's offset from the block center (`at_midBlock`)
-  along its normal, recenters the quad, and pushes it that far toward the
-  camera. With `rescale` the offset grows by √2; only the order matters.
+  along its normal, recenters the quad, and moves it toward the camera
+  along the view ray, in proportion to that offset: depth changes, screen
+  position doesn't.
 - Pot layers use `d` = −0.05 (back) and +0.05 (front); the plant stays at 0.
-  A larger depth shows as a visible offset between the layers from above.
+  Kept small so the layers show no parallax with shaders off.
   `tools/gen_flower_pots.sh` writes one element per face when `d` ≠ 0.
 - Wall bell plates are 1px thick (7.5–8.5) so the bell sits 0.25px in front
   of its stem plate from both sides.
