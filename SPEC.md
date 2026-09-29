@@ -142,9 +142,8 @@ Each item gets an ADR if it decides something new.
   Mode 13h.
 - **R2 — 1.21.1 and newer**: done. One zip for 1.20.1 to 26.3 with
   overlays (ADR 0008).
-- **R3 — First Modrinth release**, with `tools/release.sh`: uploads the one
-  zip with `game_versions` 1.20.1 to 26.3, like Mode 13h's
-  `tools/modrinth.json`.
+- **R3 — First Modrinth release**: done. 1.0.0, published by
+  `tools/release.sh` (ADR 0009).
 
 ## Art needed
 
@@ -178,6 +177,8 @@ or variants of the look.
 
 ## Distribution
 
-- GitHub `Hand-Lock/billy-boarding`. Modrinth project not created yet (R3).
+- GitHub `Hand-Lock/billy-boarding`; Modrinth
+  https://modrinth.com/resourcepack/billy-boarding (ADR 0009). README.md is
+  the Modrinth page body.
 - License CC BY-SA 4.0. Models and blockstates by HandLock_, textures by
   damikdevv.

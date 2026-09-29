@@ -5,30 +5,18 @@ Versions: [SemVer](https://semver.org/) (see `docs/adr/0005-license-release-priv
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-09-29
+
 ### Added
 
-- Pitcher crop: the leaves billboard over the 3D bulb (with the matching
-  Mode 13h).
-- Minecraft 1.21.1 support, and best-effort support up to 26.3, in the same
-  zip.
-- Potted pale oak sapling, closed and open eyeblossom (1.21.4+), golden
-  dandelion (26.1+) and poplar sapling (26.3+) become sprites (with the
-  matching Mode 13h). The open eyeblossom keeps its glow.
-
-### Removed
-
-- Unused brewing stand block texture (the vanilla one is back for other
-  packs and mods).
-
-### Fixed
-
-- Colored candle cakes no longer show missing textures (they use the plain
-  candle until colored art lands).
-- Potted fern is green again; potted bamboo shows a bamboo sprite instead of
-  a green square.
-- Wall bells no longer flicker against their stem. The brown background
-  around them goes away with the matching Mode 13h.
-- Potted plants no longer flicker against the pot, with or without the
-  shader.
-- Anvils are flat in the inventory on 1.21.4+ too.
-- Potted plants and the pitcher crop get no directional shading on 26.3.
+- First release: a resource pack for the Mode 13h shaderpack (2.1.2 or
+  newer) that turns small 3D blocks into flat sprites Mode 13h billboards.
+- Cakes (every bite) and candle cakes, lit and unlit.
+- Flower pots and every potted plant (34 on 1.20.1, up to 39 on 26.3); the
+  open eyeblossom keeps its glow.
+- Anvils, chipped and damaged, flat in the inventory too.
+- Standing and hanging bells as sprites, wall bells as flat plates.
+- Brewing stands, with each bottle slot.
+- Cactus; wheat, carrots, potatoes, beetroots, nether wart and torchflower
+  crops; the pitcher crop's leaves over its 3D bulb; fire and soul fire.
+- One zip for Minecraft 1.20.1 to 26.3.

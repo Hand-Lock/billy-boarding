@@ -61,6 +61,9 @@ tools/
   check.sh                offline checks (see below)
   build.sh                dist/billy-boarding-<version>+1.20.1-26.3.zip
                           from git archive
+  release.sh              tags, GitHub release, Modrinth version and page
+  modrinth.json           Modrinth project id, loader, game versions,
+                          dependencies
   gen_flower_pots.sh      generates the flower pot and potted-plant files
   vanilla.sh              writes vanilla-<version>.txt from the client jar
   vanilla-<version>.txt   vanilla blockstate, item, model and texture
@@ -132,10 +135,20 @@ for the paths and write it.
 ## Release
 
 Only when the user says **release**. Never on your own initiative.
-`tools/release.sh` doesn't exist yet; it comes with the Modrinth project
-(SPEC.md, R3). Until then, `tools/build.sh X.Y.Z` builds the zip. SemVer:
-patch = fixes and art tweaks; minor = newly covered blocks or visible look
-changes; major = a changed 10990 contract or dropped Minecraft version.
+
+1. Pick the SemVer bump: patch = fixes and art tweaks; minor = newly covered
+   blocks or visible look changes; major = a changed 10990 contract or a
+   dropped Minecraft version.
+2. In `CHANGELOG.md`, rename `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD`
+   and add a fresh empty `## [Unreleased]` above it. Commit and push.
+3. Run `tools/release.sh X.Y.Z` (use `--dry-run` first if unsure). It checks,
+   builds the zip, tags, creates the GitHub release, uploads the version to
+   Modrinth (`tools/modrinth.json`), and syncs the Modrinth page from
+   README.md.
+
+README.md is the Modrinth page body: change the page by editing README.md,
+never on the site. The gallery and the page metadata (summary, license,
+categories, sides, links) were set once through the API (ADR 0009).
 
 ## Privacy
 
@@ -153,3 +166,4 @@ changes; major = a changed 10990 contract or dropped Minecraft version.
 - Block and item models: https://minecraft.wiki/w/Model
 - Resource pack format: https://minecraft.wiki/w/Resource_pack
 - Pack format numbers: https://minecraft.wiki/w/Pack_format
+- Modrinth API v2: https://docs.modrinth.com/api/
