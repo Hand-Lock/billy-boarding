@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
+  "textures": { "bell": "minecraft:item/bell" },
+  "elements": [
+    {
+      "from": [0.0, 0.0, 7.75],
+      "to":   [16.0, 16.0, 8.25],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#bell" },
+        "south": { "uv": [16, 0, 0, 16], "texture": "#bell" }
+      }
+    }
+  ]
+}

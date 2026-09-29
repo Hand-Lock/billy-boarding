@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "bites=0": { "model": "minecraft:block/cake_cross_bites0" },
+    "bites=1": { "model": "minecraft:block/cake_cross_bites1" },
+    "bites=2": { "model": "minecraft:block/cake_cross_bites2" },
+    "bites=3": { "model": "minecraft:block/cake_cross_bites3" },
+    "bites=4": { "model": "minecraft:block/cake_cross_bites4" },
+    "bites=5": { "model": "minecraft:block/cake_cross_bites5" },
+    "bites=6": { "model": "minecraft:block/cake_cross_bites6" }
+  }
+}

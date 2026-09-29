@@ -1,0 +1,14 @@
+{
+  "multipart": [
+    { "apply": { "model": "minecraft:block/brewing_stand_cross_base" } },
+
+    { "when": { "has_bottle_2": "true" },
+      "apply": { "model": "minecraft:block/brewing_stand_cross_bottle2" } },
+
+    { "when": { "has_bottle_0": "true" },
+      "apply": { "model": "minecraft:block/brewing_stand_cross_bottle0" } },
+
+    { "when": { "has_bottle_1": "true" },
+      "apply": { "model": "minecraft:block/brewing_stand_cross_bottle1" } }
+  ]
+}

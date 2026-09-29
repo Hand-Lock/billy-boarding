@@ -1,0 +1,16 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
+  "textures": { "stem": "minecraft:block/bell_between_walls_stem" },
+  "elements": [
+    {
+      "from": [0.0, 0.0, 7.75],
+      "to":   [16.0, 16.0, 8.25],
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#stem" },
+        "south": { "uv": [16, 0, 0, 16], "texture": "#stem" }
+      }
+    }
+  ]
+}

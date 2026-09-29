@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:block/candle_cake_cross_base",
+  "textures": { "cross": "minecraft:block/candle_cake_gray_unlit" }
+}

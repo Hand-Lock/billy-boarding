@@ -1,0 +1,7 @@
+{
+  "multipart": [
+    { "apply": { "model": "minecraft:block/flower_pot_layer_back" } },
+    { "apply": { "model": "minecraft:block/potted_orange_tulip_plant" } },
+    { "apply": { "model": "minecraft:block/flower_pot_layer_front" } }
+  ]
+}
