@@ -34,9 +34,9 @@ the look or compatibility.
 - Suckless: the smallest change that works. No new tools, formats or
   abstractions without a reason.
 - `flower_pot.json`, `flower_pot_layer_*.json`, `potted_*.json` and
-  `potted_*_plant.json` are generated, in `assets/` and the overlays. Never edit them by hand: edit
-  `tools/gen_flower_pots.sh`, run it, and commit both. `tools/check.sh`
-  fails if they drift.
+  `potted_*_plant.json` are generated, in `assets/` and the overlays. Never
+  edit them by hand: edit `tools/gen_flower_pots.sh`, run it, and commit
+  both. `tools/check.sh` fails if they drift.
 - Refs without a namespace are `minecraft:`; the pack uses `minecraft:`
   everywhere. Match it.
 

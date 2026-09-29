@@ -26,6 +26,6 @@ damikdevv, models by HandLock_; both agree to the license.
 
 ## Consequences
 
-- Zips contain only `pack.mcmeta`, `pack.png`, `assets/`, `credits.txt` and
-  `LICENSE`.
+- Zips contain only `pack.mcmeta`, `pack.png`, `assets/`, the `overlay_*`
+  directories (0008), `credits.txt` and `LICENSE`.
 - Forks and modpacks may reuse the art with credit, under the same license.

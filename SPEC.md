@@ -11,8 +11,9 @@ face the camera.
 ## Principles
 
 - **Opinionated.** One look, no variants or options.
-- **Vanilla JSON only.** Blockstates, block models and textures. No OptiFine
-  CEM/CTM, no mod-only features beyond the `render_type` hint (ADR 0002).
+- **Vanilla JSON only.** Blockstates, item definitions (1.21.4+), block
+  models and textures. No OptiFine CEM/CTM, no mod-only features beyond the
+  `render_type` hint (ADR 0002).
 - **Item icons as sprites.** Reuse the vanilla item icon when it reads well;
   draw new art only where no icon fits (cake bites, candle cakes, anvils,
   pot layers).
