@@ -25,5 +25,8 @@ invites drift.
 ## Consequences
 
 - A new potted plant is one line in the script.
-- Plant layers lose vanilla tinting (no `tintindex`), which matters for the
-  potted fern.
+- The pot layers are plain `minecraft:block/cross` children; only the empty
+  pot and the plant layer need explicit elements for their vertical offset.
+- Plant layers are untinted unless the script's third column asks for
+  `"tintindex": 0`. Only the potted fern does, because vanilla tints it with
+  the grass color.

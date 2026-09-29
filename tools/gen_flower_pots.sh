@@ -10,12 +10,15 @@ BLOCKSTATES_DIR="$ASSETS_DIR/blockstates"
 mkdir -p "$MODELS_DIR" "$BLOCKSTATES_DIR"
 
 write_cross_model_yshift() {
-  # Args: <filepath> <texture> <y_from> <y_to> <render_type>
+  # Args: <filepath> <texture> <y_from> <y_to> <render_type> [tint]
+  # tint: any non-empty value adds "tintindex": 0 to every face.
   local path="$1"
   local texture="$2"
   local y0="$3"
   local y1="$4"
   local rtype="$5"
+  local tint=""
+  [ -n "${6:-}" ] && tint=', "tintindex": 0'
 
   cat > "$path" <<EOF
 {
@@ -33,8 +36,8 @@ write_cross_model_yshift() {
       "rotation": { "origin": [8, 8, 8], "axis": "y", "angle": 45, "rescale": true },
       "shade": false,
       "faces": {
-        "north": { "uv": [0, 0, 16, 16], "texture": "#cross" },
-        "south": { "uv": [0, 0, 16, 16], "texture": "#cross" }
+        "north": { "uv": [0, 0, 16, 16], "texture": "#cross"$tint },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#cross"$tint }
       }
     },
     {
@@ -43,8 +46,8 @@ write_cross_model_yshift() {
       "rotation": { "origin": [8, 8, 8], "axis": "y", "angle": 45, "rescale": true },
       "shade": false,
       "faces": {
-        "west": { "uv": [0, 0, 16, 16], "texture": "#cross" },
-        "east": { "uv": [0, 0, 16, 16], "texture": "#cross" }
+        "west": { "uv": [0, 0, 16, 16], "texture": "#cross"$tint },
+        "east": { "uv": [0, 0, 16, 16], "texture": "#cross"$tint }
       }
     }
   ]
@@ -79,25 +82,32 @@ cat > "$BLOCKSTATES_DIR/flower_pot.json" <<'EOF'
 }
 EOF
 
-# Pot layers for potted variants: NOT lowered (0..16), both cutout
-# You provide:
-#   assets/minecraft/textures/block/flower_pot_layer_back.png
-#   assets/minecraft/textures/block/flower_pot_layer_front.png
-write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_back.json"  "minecraft:block/flower_pot_layer_back"  0 16 "minecraft:cutout"
-write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_front.json" "minecraft:block/flower_pot_layer_front" 0 16 "minecraft:cutout"
+# Pot layers for potted variants: plain vanilla crosses (0..16), cutout
+for layer in back front; do
+  cat > "$MODELS_DIR/flower_pot_layer_$layer.json" <<EOF
+{
+  "parent": "minecraft:block/cross",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "cross": "minecraft:block/flower_pot_layer_$layer"
+  }
+}
+EOF
+done
 
 # Plant layer: raised 5px => y: 5..21, ONLY this uses tripwire
-while read -r pot_id plant_texture; do
+# A third column tints the plant with the vanilla block color (grass).
+while read -r pot_id plant_texture tint; do
   [ -z "${pot_id:-}" ] && continue
   plant_model="${pot_id}_plant"
 
-  write_cross_model_yshift "$MODELS_DIR/${plant_model}.json" "$plant_texture" 5 21 "minecraft:tripwire"
+  write_cross_model_yshift "$MODELS_DIR/${plant_model}.json" "$plant_texture" 5 21 "minecraft:tripwire" "$tint"
   write_potted_blockstate_multipart "$BLOCKSTATES_DIR/${pot_id}.json" "$plant_model"
 done <<'EOF'
 potted_acacia_sapling minecraft:block/acacia_sapling
 potted_allium minecraft:block/allium
 potted_azure_bluet minecraft:block/azure_bluet
-potted_bamboo minecraft:block/bamboo_stalk
+potted_bamboo minecraft:item/bamboo
 potted_birch_sapling minecraft:block/birch_sapling
 potted_blue_orchid minecraft:block/blue_orchid
 potted_brown_mushroom minecraft:block/brown_mushroom
@@ -109,7 +119,7 @@ potted_crimson_roots minecraft:block/crimson_roots
 potted_dandelion minecraft:block/dandelion
 potted_dark_oak_sapling minecraft:block/dark_oak_sapling
 potted_dead_bush minecraft:block/dead_bush
-potted_fern minecraft:block/fern
+potted_fern minecraft:block/fern tint
 potted_jungle_sapling minecraft:block/jungle_sapling
 potted_lily_of_the_valley minecraft:block/lily_of_the_valley
 potted_mangrove_propagule minecraft:block/mangrove_propagule
@@ -130,7 +140,3 @@ potted_azalea_bush minecraft:block/potted_azalea_bush_plant
 potted_flowering_azalea_bush minecraft:block/potted_flowering_azalea_bush_plant
 EOF
 
-echo "Done."
-echo "Add:"
-echo "  $ASSETS_DIR/textures/block/flower_pot_layer_back.png"
-echo "  $ASSETS_DIR/textures/block/flower_pot_layer_front.png"

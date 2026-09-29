@@ -3,7 +3,7 @@
   "render_type": "minecraft:tripwire",
   "ambientocclusion": false,
   "textures": {
-    "cross": "minecraft:block/bamboo_stalk",
+    "cross": "minecraft:item/bamboo",
     "particle": "#cross"
   },
   "elements": [
