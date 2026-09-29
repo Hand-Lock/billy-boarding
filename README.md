@@ -11,16 +11,16 @@ The sprites are made from the blocks' own item icons, plus new art where no icon
 ## 🧱 Covered blocks
 
 - **Cake**: every bite stage.
-- **Candle cake**: the plain candle, lit and unlit.
+- **Candle cake**: lit and unlit. Every color shows the plain candle for now.
 - **Flower pot**: the empty pot and all 34 potted plants.
 - **Anvil**: intact, chipped and damaged, also flat in the inventory.
 - **Bell**: standing and hanging bells become sprites; wall-mounted bells become flat plates.
 - **Brewing stand**: the stand and each bottle slot.
 - **Cactus**.
-- **Crops**: wheat, carrots, potatoes, beetroots and nether wart.
+- **Crops**: wheat, carrots, potatoes, beetroots, nether wart and torchflower.
 - **Fire** and **soul fire** on the ground.
 
-Colored candle cakes, candles, sea pickles and the pitcher crop aren't covered yet.
+Coming as the art lands: candles, sea pickles, turtle eggs, the sniffer egg, the dragon egg, campfires and the pitcher crop. Signs are left to the Flatter Signs mod.
 
 ## ⚙️ Setup
 
