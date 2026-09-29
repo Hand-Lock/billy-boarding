@@ -5,6 +5,11 @@ Versions: [SemVer](https://semver.org/) (see `docs/adr/0005-license-release-priv
 
 ## [Unreleased]
 
+### Removed
+
+- Unused brewing stand block texture (the vanilla one is back for other
+  packs and mods).
+
 ### Fixed
 
 - Colored candle cakes no longer show missing textures (they use the plain

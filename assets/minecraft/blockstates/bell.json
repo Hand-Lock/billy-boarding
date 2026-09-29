@@ -19,16 +19,16 @@
     { "when": { "attachment": "single_wall", "facing": "east" }, "apply": { "model": "minecraft:block/bell_wall_stem_flat_ew", "y": 180 } },
 
 
-    { "when": { "attachment": "double_wall", "facing": "south" }, "apply": { "model": "minecraft:block/bell_between_walls_flat_ns" } },
+    { "when": { "attachment": "double_wall", "facing": "south" }, "apply": { "model": "minecraft:block/bell_wall_flat_ns" } },
     { "when": { "attachment": "double_wall", "facing": "south" }, "apply": { "model": "minecraft:block/bell_between_walls_stem_flat_ns" } },
 
-    { "when": { "attachment": "double_wall", "facing": "north" }, "apply": { "model": "minecraft:block/bell_between_walls_flat_ns", "y": 180 } },
+    { "when": { "attachment": "double_wall", "facing": "north" }, "apply": { "model": "minecraft:block/bell_wall_flat_ns", "y": 180 } },
     { "when": { "attachment": "double_wall", "facing": "north" }, "apply": { "model": "minecraft:block/bell_between_walls_stem_flat_ns", "y": 180 } },
 
-    { "when": { "attachment": "double_wall", "facing": "west" }, "apply": { "model": "minecraft:block/bell_between_walls_flat_ew" } },
+    { "when": { "attachment": "double_wall", "facing": "west" }, "apply": { "model": "minecraft:block/bell_wall_flat_ew" } },
     { "when": { "attachment": "double_wall", "facing": "west" }, "apply": { "model": "minecraft:block/bell_between_walls_stem_flat_ew" } },
 
-    { "when": { "attachment": "double_wall", "facing": "east" }, "apply": { "model": "minecraft:block/bell_between_walls_flat_ew", "y": 180 } },
+    { "when": { "attachment": "double_wall", "facing": "east" }, "apply": { "model": "minecraft:block/bell_wall_flat_ew", "y": 180 } },
     { "when": { "attachment": "double_wall", "facing": "east" }, "apply": { "model": "minecraft:block/bell_between_walls_stem_flat_ew", "y": 180 } }
   ]
 }
