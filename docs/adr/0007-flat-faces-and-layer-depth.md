@@ -33,10 +33,11 @@ planes that should billboard.
   drawn in front of the depth 0 cross (behind, for negative `d`), from every
   side. Shaders off, each face is only seen from its own side (backface
   culling), so the order holds from all four sides. Shader on, Mode 13h
-  measures the kept face's offset from the block center (`at_midBlock`)
-  along its normal, recenters the quad, and moves it toward the camera
-  along the view ray, in proportion to that offset: depth changes, screen
-  position doesn't.
+  measures the kept face's offset from the block center along its normal,
+  reads it in 0.05 px steps as an integer depth rank, recenters the quad,
+  and moves it toward the camera along the view ray by its rank: depth
+  changes, screen position doesn't. So `d` must be a whole multiple of
+  0.05; other values are rounded to the nearest one.
 - Pot layers use `d` = −0.05 (back) and +0.05 (front); the plant stays at 0.
   Kept small so the layers show no parallax with shaders off.
   `tools/gen_flower_pots.sh` writes one element per face when `d` ≠ 0.
