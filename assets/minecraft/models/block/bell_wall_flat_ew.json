@@ -5,8 +5,8 @@
   "textures": { "bell": "minecraft:item/bell" },
   "elements": [
     {
-      "from": [0.0, 0.0, 7.75],
-      "to":   [16.0, 16.0, 8.25],
+      "from": [0.0, 0.0, 7.5],
+      "to":   [16.0, 16.0, 8.5],
       "faces": {
         "north": { "uv": [0, 0, 16, 16], "texture": "#bell" },
         "south": { "uv": [16, 0, 0, 16], "texture": "#bell" }
