@@ -1,0 +1,44 @@
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://github.com/Hand-Lock/billy-boarding/blob/main/LICENSE)
+
+# Billy Boarding
+
+*A resource pack add-on for the **Mode 13h: MS-DOSify!** shader pack that turns small 3D blocks into flat, camera-facing sprites.*
+
+Old DOS-era 3D games drew props as **billboards**: flat pictures that always turn to face you. **Mode 13h** already does that for flowers, grass, torches and lanterns. **Billy Boarding** gives it more to work with: it replaces the models of cakes, flower pots, anvils, bells, brewing stands, cactus, crops and fire with flat sprites, and Mode 13h turns them to face the camera.
+
+The sprites are made from the blocks' own item icons, plus new art where no icon fits.
+
+## 🧱 Covered blocks
+
+- **Cake**: every bite stage.
+- **Candle cake**: the plain candle, lit and unlit.
+- **Flower pot**: the empty pot and all 34 potted plants.
+- **Anvil**: intact, chipped and damaged, also flat in the inventory.
+- **Bell**: standing and hanging bells become sprites; wall-mounted bells become flat plates.
+- **Brewing stand**: the stand and each bottle slot.
+- **Cactus**.
+- **Crops**: wheat, carrots, potatoes, beetroots and nether wart.
+- **Fire** and **soul fire** on the ground.
+
+Colored candle cakes, candles, sea pickles and the pitcher crop aren't covered yet.
+
+## ⚙️ Setup
+
+1. Install **Mode 13h** (with **Iris** or **Oculus**) and turn on **Billy Boarding** in its shader settings.
+2. Put this pack above the default resources in the resource pack list.
+
+Minecraft **`1.20.1`**. Support for **`1.21.1`** is planned.
+
+### Without the shader
+
+The pack still works: the covered blocks show up as crossed flat sprites, like vanilla flowers. They just won't turn to face you.
+
+## 🙏 Credits
+
+- **HandLock_**: models and blockstates
+- **damikdevv**: textures
+- **Mojang**: Minecraft, and the item icons the sprites are based on
+
+## 📜 License
+
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). You can share and adapt the pack, including in modpacks, as long as you credit the authors and share your changes under the same license.
