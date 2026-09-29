@@ -18,3 +18,5 @@ Versions: [SemVer](https://semver.org/) (see `docs/adr/0005-license-release-priv
   a green square.
 - Wall bells no longer flicker where the bell overlaps its stem. The brown
   background around them goes away with the matching Mode 13h.
+- Potted plants no longer flicker against the pot, with or without the
+  shader.

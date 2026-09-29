@@ -9,9 +9,27 @@ BLOCKSTATES_DIR="$ASSETS_DIR/blockstates"
 
 mkdir -p "$MODELS_DIR" "$BLOCKSTATES_DIR"
 
+# write_plane <from> <to> <faces>: one cross plane element, rotated 45°.
+write_plane() {
+  cat <<EOF
+    {
+      "from": [$1],
+      "to": [$2],
+      "rotation": { "origin": [8, 8, 8], "axis": "y", "angle": 45, "rescale": true },
+      "shade": false,
+      "faces": {
+$3
+      }
+    }
+EOF
+}
+
 write_cross_model_yshift() {
-  # Args: <filepath> <texture> <y_from> <y_to> <render_type> [tint]
+  # Args: <filepath> <texture> <y_from> <y_to> <render_type> [tint] [depth]
   # tint: any non-empty value adds "tintindex": 0 to every face.
+  # depth: pushes every face that many pixels along its own normal, so it
+  #   draws in front of (or, negative, behind) a depth 0 cross from every
+  #   side (ADR 0007). Each face then gets its own element.
   local path="$1"
   local texture="$2"
   local y0="$3"
@@ -19,6 +37,23 @@ write_cross_model_yshift() {
   local rtype="$5"
   local tint=""
   [ -n "${6:-}" ] && tint=', "tintindex": 0'
+  local d="${7:-0}"
+  local face='{ "uv": [0, 0, 16, 16], "texture": "#cross"'"$tint"' }'
+  local elements
+  if [ "$d" = 0 ]; then
+    elements="$(write_plane "0.8, $y0, 8" "15.2, $y1, 8" "        \"north\": $face,
+        \"south\": $face"),
+$(write_plane "8, $y0, 0.8" "8, $y1, 15.2" "        \"west\": $face,
+        \"east\": $face")"
+  else
+    local lo hi
+    lo=$(awk "BEGIN { print 8 - ($d) }")
+    hi=$(awk "BEGIN { print 8 + ($d) }")
+    elements="$(write_plane "0.8, $y0, $lo" "15.2, $y1, $lo" "        \"north\": $face"),
+$(write_plane "0.8, $y0, $hi" "15.2, $y1, $hi" "        \"south\": $face"),
+$(write_plane "$lo, $y0, 0.8" "$lo, $y1, 15.2" "        \"west\": $face"),
+$(write_plane "$hi, $y0, 0.8" "$hi, $y1, 15.2" "        \"east\": $face")"
+  fi
 
   cat > "$path" <<EOF
 {
@@ -30,26 +65,7 @@ write_cross_model_yshift() {
     "particle": "#cross"
   },
   "elements": [
-    {
-      "from": [0.8, $y0, 8],
-      "to": [15.2, $y1, 8],
-      "rotation": { "origin": [8, 8, 8], "axis": "y", "angle": 45, "rescale": true },
-      "shade": false,
-      "faces": {
-        "north": { "uv": [0, 0, 16, 16], "texture": "#cross"$tint },
-        "south": { "uv": [0, 0, 16, 16], "texture": "#cross"$tint }
-      }
-    },
-    {
-      "from": [8, $y0, 0.8],
-      "to": [8, $y1, 15.2],
-      "rotation": { "origin": [8, 8, 8], "axis": "y", "angle": 45, "rescale": true },
-      "shade": false,
-      "faces": {
-        "west": { "uv": [0, 0, 16, 16], "texture": "#cross"$tint },
-        "east": { "uv": [0, 0, 16, 16], "texture": "#cross"$tint }
-      }
-    }
+$elements
   ]
 }
 EOF
@@ -82,18 +98,10 @@ cat > "$BLOCKSTATES_DIR/flower_pot.json" <<'EOF'
 }
 EOF
 
-# Pot layers for potted variants: plain vanilla crosses (0..16), cutout
-for layer in back front; do
-  cat > "$MODELS_DIR/flower_pot_layer_$layer.json" <<EOF
-{
-  "parent": "minecraft:block/cross",
-  "render_type": "minecraft:cutout",
-  "textures": {
-    "cross": "minecraft:block/flower_pot_layer_$layer"
-  }
-}
-EOF
-done
+# Pot layers for potted variants: crosses (0..16), cutout, pushed 0.25px
+# behind and in front of the plant so they don't z-fight with it.
+write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_back.json" "minecraft:block/flower_pot_layer_back" 0 16 "minecraft:cutout" "" -0.25
+write_cross_model_yshift "$MODELS_DIR/flower_pot_layer_front.json" "minecraft:block/flower_pot_layer_front" 0 16 "minecraft:cutout" "" 0.25
 
 # Plant layer: raised 5px => y: 5..21, ONLY this uses tripwire
 # A third column tints the plant with the vanilla block color (grass).
