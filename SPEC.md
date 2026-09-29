@@ -87,7 +87,9 @@ and `shaders/gbuffers_terrain.vsh`.
   This is how wall bells and the pitcher bulb live in 10990.
 - **Layer depth** (ADR 0007): a cross face pushed `d` along its own normal
   draws in front of the depth 0 cross from every side, shaders on or off.
-  Layers that overlap get different depths (pot layers ±0.05).
+  Mode 13h reads `d` in whole 0.05 px steps (integer ranks). Layers that
+  overlap get different depths (pot layers ±0.05), unless they have
+  identical geometry (brewing stand bottles), which draws in multipart order.
 - The shader finds the quad center from UVs, so each face maps the full
   sprite (uv 0–16) and sprites are 16×16. Vertical offsets are fine (pots).
 - Every bell state is in 10990: floor and ceiling bells as crosses, wall
@@ -110,9 +112,8 @@ and `shaders/gbuffers_terrain.vsh`.
   the eggs) show the sprite's transparent pixels as black or brown. Mode 13h
   fixes this with an alpha discard on 10990; without the shader they stay
   that way. Verified in game on 1.20.1 Fabric + Iris.
-- **Falling anvils.** A falling anvil is drawn through the entity path, not
-  `gbuffers_terrain`, so it is a static cross until it lands. Fixed on the
-  Mode 13h side.
+- **Moving blocks.** Blocks moved by pistons are drawn through the block
+  entity path, so they stay static crosses while moving.
 
 ## Roadmap
 

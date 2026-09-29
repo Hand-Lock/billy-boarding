@@ -51,7 +51,12 @@ planes that should billboard.
   not major.
 - Layered blocks (ADR 0006) can overlap their sprites freely, as long as
   each layer gets its own depth.
+- Overlapping layers with identical geometry (the same cross planes and y
+  range) can share a depth: they draw in multipart order, like vanilla
+  overlays (brewing stand bottles). Overlapping layers with different
+  geometry (pots, later candles raised onto cakes) each need their own depth.
 - Mode 13h's 10990 list gets `minecraft:bell` (all states) and
   `minecraft:pitcher_crop`.
 - Blocks drawn through the entity path (falling anvils) don't go through
-  `gbuffers_terrain` and stay static crosses until Mode 13h handles them.
+  `gbuffers_terrain`. Mode 13h billboards them in the entity path (its ADR
+  0015), around their own center and without layer depth.
