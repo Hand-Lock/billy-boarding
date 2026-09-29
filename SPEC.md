@@ -39,23 +39,31 @@ face the camera.
 | Cake, bites 0–6 | cross | new art, one per bite |
 | Candle cake, all colors, lit/unlit | cross | new art; every color shows the plain candle for now |
 | Flower pot, empty | cross, lowered 3px | vanilla `item/flower_pot` |
-| 34 potted plants | three crosses: back, plant, front | pot layers are new art; plant is the vanilla plant texture (fern tinted, bamboo uses `item/bamboo`, cactus `block/cactus_side` for now) |
+| 34 potted plants | three crosses: back, plant, front, 0.25px apart in depth (ADR 0007) | pot layers are new art; plant is the vanilla plant texture (fern tinted, bamboo uses `item/bamboo`, cactus `block/cactus_side` for now) |
 | Anvil, chipped, damaged | cross; item model flat too | new art (`item/*_anvil_flat`) |
 | Bell, floor/ceiling | cross (floor adds a legs cross) | vanilla `item/bell`; legs are new art |
-| Bell, single/double wall | flat plate + stem plate | vanilla `item/bell`; stems are new art |
+| Bell, single/double wall | flat plate in front of a stem plate, not billboarded (ADR 0007) | vanilla `item/bell`; stems are new art |
 | Bell block entity | hidden | transparent `entity/bell/*` |
 | Brewing stand | cross base + one cross per bottle | vanilla `item/brewing_stand`; bottles are new art |
 | Cactus | cross | vanilla `block/cactus_side` |
 | Wheat, carrots, potatoes, beetroots, nether wart | cross, via the `block/crop` parent | vanilla crop textures |
 | Fire, soul fire (floor) | cross | vanilla fire textures |
 | Torchflower crop | vanilla cross, no file here | vanilla textures |
+| Pitcher crop, ages 1–4 | 3D bulb box + billboarded cross (ADR 0007); age 0 and top ages 0–2 stay vanilla | vanilla textures |
 
 ### Waiting for art
 
-Vanilla models, not in 10990, until their sprites land (see
-[Art needed](#art-needed)): candles, sea pickles, turtle eggs, the sniffer
-egg, the dragon egg, campfires and soul campfires, the pitcher crop.
-Multi-part and multi-count blocks will be layered crosses (ADR 0006).
+To do once damikdevv's art lands (see [Art needed](#art-needed)). Until
+then they keep their vanilla models and stay out of 10990. Each becomes
+layered crosses (ADR 0006, depths per ADR 0007):
+
+- Candles, 1–4, plain and all 16 colors, lit and unlit.
+- Candle cakes, every color (now all show the plain candle).
+- Sea pickles, 1–4, alive and dead.
+- Turtle eggs, 1–4, hatch 0–2.
+- Sniffer egg, hatch 0–2.
+- Dragon egg.
+- Campfire and soul campfire, lit and unlit.
 
 ### Out of scope
 
@@ -71,13 +79,19 @@ and `shaders/gbuffers_terrain.vsh`.
 - Every billboarded block is listed under **ID 10990** in Mode 13h's
   `block.properties`, gated by its `BILLY_BOARDING` option (default off).
 - Its model must be vanilla `block/cross` geometry: two vertical planes from
-  0.8 to 15.2, rotated 45° around y with `rescale`, faces with horizontal
-  normals only. The shader keeps the face whose normal points to (+x, +z),
-  drops the rest, and rotates it to face the camera.
+  0.8 to 15.2, rotated 45° around y with `rescale`. The shader keeps the
+  face whose normal points to (+x, +z), drops the other diagonal faces, and
+  rotates it to face the camera.
+- **Flat faces** (ADR 0007): faces with axis-aligned or vertical normals are
+  drawn as they are, not billboarded, but still get the 10990 alpha discard.
+  This is how wall bells and the pitcher bulb live in 10990.
+- **Layer depth** (ADR 0007): a cross face pushed `d` along its own normal
+  draws in front of the depth 0 cross from every side, shaders on or off.
+  Layers that overlap get different depths (pot layers ±0.25).
 - The shader finds the quad center from UVs, so each face maps the full
   sprite (uv 0–16) and sprites are 16×16. Vertical offsets are fine (pots).
-- Wall-mounted bells are flat plates on the wall and are **not** in 10990.
-  Only `attachment=floor` and `attachment=ceiling` bells are.
+- Every bell state is in 10990: floor and ceiling bells as crosses, wall
+  bells as flat faces.
 - Changing which blocks have cross models means changing the 10990 list in
   the same session. Renumbering 10990 is a breaking change on both sides.
 
@@ -89,17 +103,16 @@ and `shaders/gbuffers_terrain.vsh`.
   until the layered candles land (ADR 0006).
 - **Potted cactus.** The plant layer is `block/cactus_side`, a full-width
   green square, until `potted_cactus.png` lands.
-- **Candles, sea pickles, turtle eggs, sniffer egg, dragon egg, campfires,
-  pitcher crop.** Vanilla until their art lands.
-- **10990 drift.** Mode 13h still lists candles, sea pickles and the pitcher
-  crop, which have no cross here, and lacks `potted_cactus`. Fixed on the
-  Mode 13h side; until then its `BILLY_BOARDING` option mangles candles,
-  sea pickles and pitcher crops.
+- **Candles, sea pickles, turtle eggs, sniffer egg, dragon egg, campfires.**
+  Vanilla until their art lands ([Waiting for art](#waiting-for-art)).
 - **Fabric render layers.** Fabric ignores `render_type`, so blocks that
   vanilla draws in the solid layer (cakes, candle cakes, anvils, bells, later
-  the eggs) probably show the sprite's transparent pixels as black. Mode 13h
+  the eggs) show the sprite's transparent pixels as black or brown. Mode 13h
   fixes this with an alpha discard on 10990; without the shader they stay
-  black. Unverified in game.
+  that way. Verified in game on 1.20.1 Fabric + Iris.
+- **Falling anvils.** A falling anvil is drawn through the entity path, not
+  `gbuffers_terrain`, so it is a static cross until it lands. Fixed on the
+  Mode 13h side.
 
 ## Roadmap
 
@@ -130,7 +143,6 @@ in `assets/minecraft/textures/block/` unless noted. Layers stack as in ADR
 | Campfire | `campfire_logs.png`, `campfire_logs_lit.png`, `soul_campfire_logs_lit.png` | 3 | The fire layer reuses the animated vanilla `block/campfire_fire` and `block/soul_campfire_fire`. |
 | Potted cactus | `potted_cactus.png` | 1 | A narrow cactus; becomes the plant layer. |
 | Anvils | `textures/item/{anvil,chipped_anvil,damaged_anvil}_flat.png` | 3 | Replace the placeholders; same file names. |
-| Pitcher crop (optional) | `pitcher_crop_<age>.png`, age = 0..4 | 5 | |
 
 Once the candle cakes are layered, `candle_cake_plain_{lit,unlit}.png` are
 unused and get deleted.

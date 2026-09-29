@@ -2,6 +2,7 @@
 
 Date: 2026-09-29
 Status: Accepted
+Amended by 0007.
 
 ## Context
 
