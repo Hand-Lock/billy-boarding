@@ -79,7 +79,9 @@ Old DOS-era 3D games drew their props as **billboards**: flat pictures that alwa
 * Blocks **moved by pistons** stay static while they move.
 * The **pale oak pot** stays vanilla on 1.21.2–1.21.3, where pale oak was experimental.
 
-Coming as the art lands: candles, sea pickles, turtle eggs, the sniffer egg, the dragon egg, campfires, the heavy core and the dried ghast. Signs are left to [**Flatter Signs**](https://modrinth.com/mod/flatter-signs).
+Coming as the art lands: sea pickles, turtle eggs, the sniffer egg, the dragon egg, campfires, the heavy core and the dried ghast. Signs are left to [**Flatter Signs**](https://modrinth.com/mod/flatter-signs).
+
+Candles are left to [**Golden Days**](https://modrinth.com/resourcepack/golden-days): turn on its **Flat Candles** option, and Mode 13h's **Golden Days 2D Candles** option billboards each candle.
 
 ---
 

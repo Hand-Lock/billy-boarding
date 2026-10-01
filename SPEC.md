@@ -63,7 +63,6 @@ To do once damikdevv's art lands (see [Art needed](#art-needed)). Until
 then they keep their vanilla models and stay out of 10990. Each becomes
 layered crosses (ADR 0006, depths per ADR 0007):
 
-- Candles, 1–4, plain and all 16 colors, lit and unlit.
 - Candle cakes, every color (now all show the plain candle).
 - Sea pickles, 1–4, alive and dead.
 - Turtle eggs, 1–4, hatch 0–2.
@@ -76,6 +75,9 @@ layered crosses (ADR 0006, depths per ADR 0007):
 ### Out of scope
 
 - Signs: the Flatter Signs mod handles them (Mode 13h ID 10956).
+- Candles: Golden Days' Flat Candles option draws them flat and Mode 13h's
+  Golden Days 2D Candles option billboards each candle (ID 10991). Candle
+  cakes stay in 10990 (ADR 0010).
 - Copper golem statue: a block entity drawn with the mob's texture, so it
   can't be hidden the way the bell is.
 - Shelf mushroom: wall-mounted.
@@ -116,10 +118,10 @@ and `shaders/gbuffers_terrain.vsh`.
 - **Anvils.** `item/*_anvil_flat` are identical black placeholder
   silhouettes until the art lands.
 - **Colored candle cakes.** Every color uses the plain candle cake sprite
-  until the layered candles land (ADR 0006).
+  until their candle sprites land (ADR 0006).
 - **Potted cactus.** The plant layer is `block/cactus_side`, a full-width
   green square, until `potted_cactus.png` lands.
-- **Candles, sea pickles, turtle eggs, sniffer egg, dragon egg, campfires.**
+- **Sea pickles, turtle eggs, sniffer egg, dragon egg, campfires.**
   Vanilla until their art lands ([Waiting for art](#waiting-for-art)).
 - **Fabric render layers.** Fabric ignores `render_type`, so blocks that
   vanilla draws in the solid layer (cakes, candle cakes, anvils, bells, later
@@ -154,9 +156,7 @@ in `assets/minecraft/textures/block/` unless noted. Layers stack as in ADR
 
 | Block | Files | Count | Notes |
 |---|---|---|---|
-| Candles | `candle_<n>.png`, `<color>_candle_<n>.png`, n = 1..4 | 68 | Candles only, no flame. Colors may be palette swaps of one drawing. |
-| Candle flames | `candle_flame_<n>.png`, n = 1..4 | 4 | Lit overlay. Flame positions match the candle sprites of the same n. |
-| Candle cakes | none new | 0 | `cake_bites0` + `<color>_candle_1` + (lit) `candle_flame_1`, raised to the top of the cake. |
+| Candle cakes | `candle_cake_candle.png`, `<color>_candle_cake_candle.png`, `candle_cake_flame.png` | 18 | One candle, no flame, plain + 16 colors (palette swaps fine); the flame is the lit overlay. Layered over `cake_bites0`, raised to the top of the cake. Named apart from vanilla `block/*candle*.png`, which the pack never overrides (ADR 0010). |
 | Sea pickle | `sea_pickle_<n>.png`, `dead_sea_pickle_<n>.png`, n = 1..4 | 8 | Waterlogged = alive. |
 | Turtle egg | `turtle_egg_<n>_<hatch>.png`, n = 1..4, hatch = 0..2 | 12 | |
 | Sniffer egg | `sniffer_egg_<hatch>.png`, hatch = 0..2 | 3 | Hatch 0 may reuse `item/sniffer_egg`. |
